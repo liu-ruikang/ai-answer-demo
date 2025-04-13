@@ -71,31 +71,6 @@ func getActiveConnections() int {
 	return 0
 }
 
-//	func HijackStream(w http.ResponseWriter) (net.Conn, *bufio.ReadWriter) {
-//		hj, ok := w.(http.Hijacker)
-//		if !ok {
-//			panic("hijack not supported")
-//		}
-//
-//		conn, rw, err := hj.Hijack()
-//		if err != nil {
-//			panic(err)
-//		}
-//
-//		// 设置TCP参数
-//		if tcpConn, ok := conn.(*net.TCPConn); ok {
-//			tcpConn.SetNoDelay(true) // 禁用Nagle算法
-//			tcpConn.SetKeepAlive(true)
-//			tcpConn.SetKeepAlivePeriod(30 * time.Second)
-//
-//			// 设置内核级缓冲区
-//			if err := tcpConn.SetWriteBuffer(128 * 1024); err != nil {
-//				log.Printf("设置写缓冲失败: %v", err)
-//			}
-//		}
-//
-//		return conn, rw
-//	}
 type StreamPipeline struct {
 	inputChan  chan *StreamRequest
 	outputChan chan *StreamResponse
