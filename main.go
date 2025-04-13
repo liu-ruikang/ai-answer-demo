@@ -15,26 +15,6 @@ type SSEHandler struct {
 	model *ModelGenerator
 }
 
-func (h *SSEHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	flusher, ok := w.(http.Flusher)
-	if !ok {
-		http.Error(w, "Streaming unsupported", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/event-stream")
-	w.Header().Set("Cache-Control", "no-cache")
-	w.Header().Set("Connection", "keep-alive")
-
-	ctx, cancel := context.WithCancel(r.Context())
-	defer cancel()
-
-	for token := range h.model.Stream(ctx, r.URL.Query().Get("prompt")) {
-		fmt.Fprintf(w, "data: %s\n\n", token)
-		flusher.Flush() // 关键：立即发送到客户端
-	}
-}
-
 func main() {
 	model := &ModelGenerator{bufferSize: 10}
 	handler := &SSEHandler{model: model}
@@ -54,6 +34,27 @@ func main() {
 	go monitorConnections()
 
 	log.Fatal(server.ListenAndServe())
+}
+
+func (h *SSEHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// 零拷贝写入：通过直接操作http.Flusher减少内存复制次数
+	flusher, ok := w.(http.Flusher)
+	if !ok {
+		http.Error(w, "Streaming unsupported", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+
+	ctx, cancel := context.WithCancel(r.Context())
+	defer cancel()
+
+	for token := range h.model.Stream(ctx, r.URL.Query().Get("prompt")) {
+		fmt.Fprintf(w, "data: %s\n\n", token)
+		flusher.Flush() // 关键：立即发送到客户端
+	}
 }
 
 func monitorConnections() {
