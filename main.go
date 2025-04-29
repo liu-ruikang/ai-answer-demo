@@ -72,12 +72,6 @@ func getActiveConnections() int {
 	return 0
 }
 
-type StreamPipeline struct {
-	inputChan  chan *StreamRequest
-	outputChan chan *StreamResponse
-	model      *ModelGenerator
-}
-
 // 流式请求结构体
 type StreamRequest struct {
 	ID     string
@@ -89,6 +83,12 @@ type StreamRequest struct {
 type StreamResponse struct {
 	ID     string
 	Tokens []string
+}
+
+type StreamPipeline struct {
+	inputChan  chan *StreamRequest
+	outputChan chan *StreamResponse
+	model      *ModelGenerator
 }
 
 func (p *StreamPipeline) StartWorkers(num int) {

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "./bin/desktop_cleaner"
+    }
+  },
+  "ollama": {
+    "base_url": "http://0.0.0.0:11434"
+  }
+}
