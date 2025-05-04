@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "amap_weather": {
+        "command": "./bin/amap-weather"
+    }
+  },
+  "ollama": {
+    "base_url": "http://0.0.0.0:11434"
+  }
+}
