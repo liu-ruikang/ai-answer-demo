@@ -1,11 +1,11 @@
-package aiagent
+package ai_agent
 
 import (
 	"context"
 
 	"github.com/cloudwego/eino/components/tool"
-	"github.com/cloudwego/eino/schema"
 	"github.com/cloudwego/eino/components/tool/utils"
+	"github.com/cloudwego/eino/schema"
 )
 
 // AddTodoParams 定义添加 Todo 的参数

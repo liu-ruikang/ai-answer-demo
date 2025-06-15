@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"ai-answer-demo/ai-agent"
+	aiagent "ai-answer-demo/ai-agent/ai-agent"
 )
 
 // usage 显示用法说明

@@ -1,4 +1,4 @@
-package aiagent
+package ai_agent
 
 import (
 	"context"
@@ -7,10 +7,10 @@ import (
 	"os"
 
 	"github.com/cloudwego/eino-ext/components/model/openai"
+	"github.com/cloudwego/eino-ext/components/tool/duckduckgo"
 	"github.com/cloudwego/eino/components/tool"
 	"github.com/cloudwego/eino/compose"
 	"github.com/cloudwego/eino/schema"
-	"github.com/cloudwego/eino-ext/components/tool/duckduckgo"
 )
 
 // RunAgent 启动一个完整的 Agent 示例
@@ -42,8 +42,8 @@ func RunAgent(ctx context.Context) {
 	tools := []tool.BaseTool{addTool, updateTool, listTool, searchTool}
 
 	toolInfos := make([]*schema.ToolInfo, 0, len(tools))
-	for _, tool := range tools {
-		info, err := tool.Info(ctx)
+	for _, toolInfo := range tools {
+		info, err := toolInfo.Info(ctx)
 		if err != nil {
 			log.Fatal(err)
 		}

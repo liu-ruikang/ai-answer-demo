@@ -1,4 +1,4 @@
-package aiagent
+package ai_agent
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 // EncouragerPromptTemplate 创建程序员鼓励师的对话模板
-func EncouragerPromptTemplate() *prompt.PromptTemplate {
+func EncouragerPromptTemplate() *prompt.DefaultChatTemplate {
 	return prompt.FromMessages(schema.FString,
 		schema.SystemMessage("你是一个{role}。你需要用{style}的语气回答问题。你的目标是帮助程序员保持积极乐观的心态，提供技术建议的同时也要关注他们的心理健康。"),
 		schema.MessagesPlaceholder("chat_history", true),
